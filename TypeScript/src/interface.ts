@@ -101,4 +101,4 @@ const obj: three = {
 // Requiring the use of mapped types
 // In the end, you should carefully consider and assess the situation before deciding whether to use a type alias or an interface.
 
-Types are better for working with functions, complex types, etc.
+// Types are better for working with functions, complex types, etc.
