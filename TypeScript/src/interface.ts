@@ -82,4 +82,23 @@ const obj: three = {
 //Interfaces support extending other interfaces using the extends keyword.
 // This allows you to create new interfaces that inherit properties and methods from existing ones.
 
-// we can declare multiple interfaces with the same name in the same scope.
+//When two interfaces with the same name are declared, it can merge these two interfaces.
+
+
+
+
+// What should We Use?
+// Use interfaces when:
+
+// A new object or an object method needs to be defined.
+// You wish to benefit from declaration merging.
+// Use types when:
+
+// You need to define a primitive-type alias
+// Defining tuple types
+// Defining a union
+// You must create functions and attempt to overload them in object types through composition.
+// Requiring the use of mapped types
+// In the end, you should carefully consider and assess the situation before deciding whether to use a type alias or an interface.
+
+Types are better for working with functions, complex types, etc.
