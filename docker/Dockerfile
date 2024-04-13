@@ -8,10 +8,12 @@ RUN apt-get upgrade -y
 RUN apt install -y nodejs 
 RUN apt install npm -y
 
+WORKDIR /app
+
 COPY package.json package.json
 COPY package-lock.json package-lock.json
-COPY main.js main.js
-
 RUN npm install
+
+COPY main.js main.js
 
 ENTRYPOINT [ "node","main.js" ]
