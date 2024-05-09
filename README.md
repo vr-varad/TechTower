@@ -13,8 +13,10 @@ The primary purpose of TechTower is to track my progress in learning new technol
 Explore the various technology stacks I have documented in TechTower:
 
 - [Stack 1](#): TypeScript
-- [Stack 2](#): 
-- [Stack 3](#): 
+- [Stack 2](#): PostgreSQL
+- [Stack 3](#): Prisma
+- [Stack 4](#): AWS
+- [Stack 5](#): FireBase
 - ...
 
 ## How to Use
