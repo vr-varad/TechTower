@@ -1,10 +1,10 @@
 {
   "name": "prisma",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -16,8 +16,6 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@prisma/client": "^5.12.1",
-    "dotenv": "^16.4.5"
-  },
-  "description": ""
+    "@prisma/client": "^5.14.0"
+  }
 }
