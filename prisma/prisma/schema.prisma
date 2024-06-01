@@ -19,12 +19,14 @@ model prisma_user{
   firstname String?
   lastname String?
   password String
+  todos prisma_todo[]
 }
 
-model Todo {
+model prisma_todo {
   id Int @id @default(autoincrement())
   title String
   done Boolean @default(false)
   description String?
   user_id Int
+  user prisma_user @relation(fields: [user_id], references: [id])
 }

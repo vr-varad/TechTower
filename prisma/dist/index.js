@@ -18,8 +18,8 @@ function insertUser(email, password, firstname, lastname) {
                 email,
                 firstname,
                 lastname,
-                password
-            }
+                password,
+            },
         });
         return user;
     });
@@ -28,8 +28,8 @@ function getUser(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield prisma.prisma_user.findUnique({
             where: {
-                id
-            }
+                id,
+            },
         });
         return user;
     });
@@ -38,13 +38,43 @@ function updateUser(id, data) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield prisma.prisma_user.update({
             where: {
-                id
+                id,
             },
-            data
+            data,
         });
         return user;
     });
 }
 // insertUser('varad@gmail.com', 'password', 'Varad', 'Kulkarni')
-// getUser(1).then(user => console.log(user))
-updateUser(1, { email: 'abcd@gmail.com' }).then(user => console.log(user));
+// insertUser('abcd@gmail.com', 'password', 'abcd', 'efgh')
+function insertTodo(title, done, description, user_id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const todo = yield prisma.prisma_todo.create({
+            data: {
+                title,
+                done,
+                description,
+                user_id
+            }
+        });
+        return todo;
+    });
+}
+// insertTodo('Learn Prisma', false, 'Learn Prisma with TypeScript', 1)
+// insertTodo('Learn GraphQL', false, 'Learn GraphQL with TypeScript', 1)
+function getTodosAndUserDetails(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const todos = yield prisma.prisma_todo.findMany({
+            where: {
+                user_id: userId,
+            },
+            select: {
+                user: true,
+                title: true,
+                description: true
+            }
+        });
+        console.log(todos);
+    });
+}
+getTodosAndUserDetails(1);

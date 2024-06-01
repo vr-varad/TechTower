@@ -17,13 +17,14 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 let { postgresql_connection } = process.env;
 const client = new pg_1.Client({
-    connectionString: postgresql_connection
+    connectionString: postgresql_connection,
 });
 function createUsersTable() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield client.connect()
-            .then(() => console.log('Connected to PostgreSQL'))
-            .catch(error => console.error('Error connecting to PostgreSQL:', error));
+        yield client
+            .connect()
+            .then(() => console.log("Connected to PostgreSQL"))
+            .catch((error) => console.error("Error connecting to PostgreSQL:", error));
         const result = yield client.query(`
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -36,9 +37,10 @@ function createUsersTable() {
 }
 function createAddressaTable() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield client.connect()
-            .then(() => console.log('Connected to PostgreSQL'))
-            .catch(error => console.error('Error connecting to PostgreSQL:', error));
+        yield client
+            .connect()
+            .then(() => console.log("Connected to PostgreSQL"))
+            .catch((error) => console.error("Error connecting to PostgreSQL:", error));
         const result = yield client.query(`
         CREATE TABLE addresses (
             id SERIAL PRIMARY KEY,
@@ -55,9 +57,10 @@ function createAddressaTable() {
 }
 function insertUser(name, email) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield client.connect()
-            .then(() => console.log('Connected to PostgreSQL'))
-            .catch(error => console.error('Error connecting to PostgreSQL:', error));
+        yield client
+            .connect()
+            .then(() => console.log("Connected to PostgreSQL"))
+            .catch((error) => console.error("Error connecting to PostgreSQL:", error));
         const result = yield client.query(`
     INSERT INTO users (name, email) VALUES ($1, $2)
     `, [name, email]);
@@ -66,9 +69,10 @@ function insertUser(name, email) {
 }
 function insertAddress(user_id, city, country, street, pincode) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield client.connect()
-            .then(() => console.log('Connected to PostgreSQL'))
-            .catch(error => console.error('Error connecting to PostgreSQL:', error));
+        yield client
+            .connect()
+            .then(() => console.log("Connected to PostgreSQL"))
+            .catch((error) => console.error("Error connecting to PostgreSQL:", error));
         const result = yield client.query(`
         INSERT INTO addresses (user_id, city, country, street, pincode) VALUES ($1, $2, $3, $4, $5)
         `, [user_id, city, country, street, pincode]);
@@ -77,9 +81,10 @@ function insertAddress(user_id, city, country, street, pincode) {
 }
 function getUsers(email) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield client.connect()
-            .then(() => console.log('Connected to PostgreSQL'))
-            .catch(error => console.error('Error connecting to PostgreSQL:', error));
+        yield client
+            .connect()
+            .then(() => console.log("Connected to PostgreSQL"))
+            .catch((error) => console.error("Error connecting to PostgreSQL:", error));
         const values = [email];
         const result = yield client.query(`
         SELECT * FROM users WHERE email = $1;
@@ -89,9 +94,10 @@ function getUsers(email) {
 }
 function joinfunction(user_id) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield client.connect()
-            .then(() => console.log('Connected to PostgreSQL'))
-            .catch(error => console.error('Error connecting to PostgreSQL:', error));
+        yield client
+            .connect()
+            .then(() => console.log("Connected to PostgreSQL"))
+            .catch((error) => console.error("Error connecting to PostgreSQL:", error));
         const values = [user_id];
         const result = yield client.query(`
         SELECT * FROM users
@@ -101,9 +107,42 @@ function joinfunction(user_id) {
         console.log(result.rows);
     });
 }
-// createUsersTable()
+const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    yield client.connect();
+    const result = yield client.query(`
+            DELETE FROM users WHERE id = $1
+        `, [id]);
+    console.log(result);
+});
+// createUsersTable();
 // createAddressaTable()
 // insertUser('John Doe', 'abcd@gmail.com')
+// insertUser('Jane Doe', 'jane@gmail.com')
 // insertAddress(1,'New York', 'USA', '123 Broadway St', '10001');
+// insertAddress(1,'Los Angeles', 'USA', '123 Hollywood St', '90001');
+// insertAddress(2,'Mumbai', 'India', '123 Che/nnai St', '900501');
+// insertAddress(2,'New York', 'India', '123 Delhi St', '1003501');
+// deleteUser(2)
 joinfunction(1);
 // getUsers('abcd@gmail.com')
+const insertUserAndAddress = (name, email, city, country, street, pincode) => __awaiter(void 0, void 0, void 0, function* () {
+    yield client.connect();
+    yield client.query('BEGIN');
+    try {
+        const userResult = yield client.query(`
+                INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id
+            `, [name, email]);
+        const userId = userResult.rows[0].id;
+        yield client.query(`
+                INSERT INTO addresses (user_id, city, country, street, pincode) VALUES ($1, $2, $3, $4, $5)
+            `, [userId, city, country, street, pincode]);
+        yield client.query('COMMIT');
+        console.log('Transaction committed');
+    }
+    catch (error) {
+        yield client.query('ROLLBACK');
+        throw error;
+    }
+});
+// insertUserAndAddress('Johny Doe', 'jonny@gmail.com', 'New York', 'USA', '123 Broadway St', '10001')
+// insertUserAndAddress('Janey Doe', 'janey@gmail.com', 'Los Angeles', 'USA', '123 Hollywood St', '90001')
