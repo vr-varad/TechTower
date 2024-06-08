@@ -1,0 +1,29 @@
+{
+  "name": "mocha_chai",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "mocha --timeout 30000 --require ts-node/register test/**.spec.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.6",
+    "@types/sinon": "^17.0.3",
+    "axios": "^1.7.2",
+    "chai": "^5.1.1",
+    "mocha": "^10.4.0",
+    "nock": "^13.5.4",
+    "sinon": "^18.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.5"
+  }
+}
